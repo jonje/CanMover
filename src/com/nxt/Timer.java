@@ -1,6 +1,9 @@
 package com.nxt;
 
 public class Timer {
+	private int currentTime;
+	private final int MAX_TIME = 100;
+	private boolean isRunning;
 	
 	/**
 	 * Start
@@ -8,6 +11,9 @@ public class Timer {
 	 */
 	
 	public void start() {
+		isRunning = true;
+		timeIncrementer();
+		
 		
 	}
 	
@@ -15,19 +21,35 @@ public class Timer {
 	Stop the timer, do NOT reset the time*/
 	
 	public void stop() {
-		
+		isRunning = false;
 	}
 	
 /*Reset
 	Stop the timer AND reset the time
 */
 	public void reset() {
+		isRunning = false; 
+		currentTime = 0;
 		
+	}
+	
+	private void timeIncrementer() {
+		while(isRunning) {
+			currentTime++;
+			
+			try {
+				Thread.sleep(1000);
+				
+			} catch(InterruptedException interruptedException) {
+				interruptedException.printStackTrace();
+			}
+		}
 	}
 	
 	/*getTime
 	Return the current time*/
-	public void getTime(){
+	public int getTime(){
+		return currentTime;
 		
 	}
 
@@ -36,7 +58,7 @@ public class Timer {
 */
 	
 	public boolean isTimeUp(){
-		return true;
+		return (currentTime == MAX_TIME);
 	}
 	
 }
