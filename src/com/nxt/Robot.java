@@ -1,6 +1,10 @@
 package com.nxt;
 
 public class Robot {
+	private DriveSystem driveSystem;
+	private Timer timer;
+	private CanDetector canDetector;
+	
 	/**
 	 *Initialize
 	 *	Determine # of cans to clear
@@ -9,7 +13,12 @@ public class Robot {
 		Initialize CanDetector
 	 */
 	
-	public void initialize() {
+	public void Robot() {
+		driveSystem = new DriveSystem();
+		timer = new Timer();
+		canDetector = new CanDetector();
+		
+		
 		
 	}
 	
@@ -21,6 +30,7 @@ public class Robot {
 				remove the can
 	 */
 	public void run() {
+		
 		
 	}
 	
