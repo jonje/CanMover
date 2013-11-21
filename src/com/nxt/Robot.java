@@ -5,6 +5,10 @@ public class Robot {
 	private Timer timer;
 	private CanDetector canDetector;
 	
+	private final int ROTATE_AMOUNT = 32;
+	private final int MAX_CANS = 3;
+	
+	private int cansRemoved = 0;
 	/**
 	 *Initialize
 	 *	Determine # of cans to clear
@@ -30,8 +34,25 @@ public class Robot {
 				remove the can
 	 */
 	public void run() {
+		while(!timer.isTimeUp() || !areCansCleared()) {
+			try {
+				driveSystem.rotate(ROTATE_AMOUNT);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			if(canDetector.isCanTargeted()) {
+				removeCan();
+			}
+		}
 		
+		System.out.println("Took " + timer.getTime() + " seconds");
 		
+	}
+	
+	private boolean areCansCleared() {
+		return cansRemoved == MAX_CANS;
 	}
 	
 	/**
@@ -46,6 +67,11 @@ public class Robot {
 	 */
 	
 	public void removeCan() {
+		driveSystem.moveForward();
+		
+		if(canDetector.isTouchingCan()) {
+			cansRemoved++;
+		}
 		
 	}
 

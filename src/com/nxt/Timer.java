@@ -1,6 +1,6 @@
 package com.nxt;
 
-public class Timer {
+public class Timer extends Thread {
 	private int currentTime;
 	private final int MAX_TIME = 100;
 	private boolean isRunning;
@@ -10,10 +10,8 @@ public class Timer {
 	 * Begin recording the passing time
 	 */
 	
-	public void start() {
-		isRunning = true;
-		timeIncrementer();
-		
+	public void startTimer() {
+		run();
 		
 	}
 	
@@ -34,7 +32,7 @@ public class Timer {
 	}
 	
 	private void timeIncrementer() {
-		while(isRunning) {
+		while(isRunning && !isTimeUp()) {
 			currentTime++;
 			
 			try {
@@ -59,6 +57,14 @@ public class Timer {
 	
 	public boolean isTimeUp(){
 		return (currentTime == MAX_TIME);
+	}
+
+	@Override
+	public void run() {
+		isRunning = true;
+		timeIncrementer();
+		
+	
 	}
 	
 }

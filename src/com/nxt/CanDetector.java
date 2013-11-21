@@ -12,7 +12,7 @@ UltrasonicSensor s;
 	Initialize SonicSensor
 	Initialize TouchSensor
 	*/
-	public CanSensor()
+	public CanDetector()
 	{
 		s = new UltrasonicSensor(SensorPort.S3);
 		t = new TouchSensor(SensorPort.S2);
