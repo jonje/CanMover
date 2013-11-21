@@ -25,7 +25,7 @@ public class DriveSystem {
 		{
 		  Motor.A.forward();
 		  Motor.B.forward();
-		  while(c.getColorID() == c.WHITE)
+		  while(c.getColorID() != c.BLACK)
 		  {
 			  System.out.println("Pushing...");
 		  }
