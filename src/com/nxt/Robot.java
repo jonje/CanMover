@@ -7,7 +7,7 @@ public class Robot {
 	private Timer timer;
 	private CanDetector canDetector;
 	
-	private final int ROTATE_AMOUNT = 32;
+	private final int ROTATE_AMOUNT = 60;
 	private final int MAX_CANS = 3;
 	
 	private int cansRemoved = 0;
@@ -36,18 +36,25 @@ public class Robot {
 				remove the can
 	 */
 	public void run() {
+		
 		timer.start();
 		while(!timer.isTimeUp() && !areCansCleared() && !Button.ESCAPE.isDown()) {
 			
-				driveSystem.moveForward();
+				try {
+					driveSystem.rotate(ROTATE_AMOUNT);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			
 			
 			if(canDetector.isCanTargeted()) {
 				removeCan();
 			}
 		}
-		
+		timer.stop();
 		System.out.println("Took " + timer.getTime() + " seconds");
+		Button.waitForAnyPress();
 		
 	}
 	
@@ -67,11 +74,23 @@ public class Robot {
 	 */
 	
 	public void removeCan() {
-		driveSystem.moveForward();
 		
-		if(canDetector.isTouchingCan()) {
+		System.out.println("Ran before if");
+		if(driveSystem.moveForward(canDetector)) {
+			System.out.println("RANNNNNN");
 			cansRemoved++;
 		}
+		
+		try {
+			System.out.println("Done in try");
+			driveSystem.moveBackward(2500);
+			System.out.println("Moving backwards called");
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Epic failness");
+		}
+		
 		
 	}
 

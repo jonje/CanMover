@@ -27,17 +27,24 @@ public class DriveSystem {
 		moveForward
 				turn the both motors forward simultaneously until the ColorSensor sees the edge of the circle 
 		*/
-		public void moveForward()
+		public boolean moveForward(CanDetector c)
 		{
+			boolean removedCan = false;
+			
 			Motor.A.forward();
 			Motor.B.forward();
 			
 			while(l.getLightValue() > 39) {
 				System.out.println("Pushing");
+				if(c.isTouchingCan() && !removedCan)
+				{
+					removedCan = true;
+				}
 			}
 			
 			stop();
 		
+			return removedCan;
 		}
 		
 		
@@ -47,11 +54,13 @@ public class DriveSystem {
 	  */
 	  public void moveBackward(int time) throws InterruptedException
 	  {
-		 
+		System.out.println("Move backward started"); 
 	    Motor.A.backward();
 	    Motor.B.backward();
 	    Thread.sleep(time);
+	    
 	    stop();
+	    System.out.println("Move backward stopped");
 	  }
 	  
 	  
@@ -62,8 +71,8 @@ public class DriveSystem {
 	  */
 	  public void rotate(int time) throws InterruptedException
 	  {
-	    Motor.A.rotate(45);
-	    Motor.B.rotate(45);
+	    Motor.A.rotate(time);
+	    Motor.B.rotate(-time);
 	    Thread.sleep(time);
 	    
 	    System.out.println("Port A: " + Motor.A.getSpeed() + " Port B: " + Motor.B.getSpeed());
