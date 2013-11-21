@@ -1,11 +1,14 @@
 package com.nxt;
 
 import lejos.nxt.ColorSensor;
+import lejos.nxt.LCD;
+import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
+import lejos.nxt.SensorConstants;
 import lejos.nxt.SensorPort;
 
 public class DriveSystem {
-	ColorSensor c;
+	LightSensor l;
 	
 	  /*
 	  Initialize
@@ -13,8 +16,11 @@ public class DriveSystem {
 		*/
 		public DriveSystem()
 		{
-			c = new ColorSensor(SensorPort.S1);
-		}
+			l = new LightSensor(SensorPort.S1);
+			//Motor.A.setSpeed();
+			//Motor.B.setAcceleration(6000);
+			//Motor.A.setAcceleration();
+		}	
 		
 		
 		/*
@@ -23,14 +29,15 @@ public class DriveSystem {
 		*/
 		public void moveForward()
 		{
-		  Motor.A.forward();
-		  Motor.B.forward();
-		  while(c.getColorID() != c.BLACK)
-		  {
-			  System.out.println("Pushing...");
-		  }
-		  stop();
-		  System.out.println("Completed");
+			Motor.A.forward();
+			Motor.B.forward();
+			
+			while(l.getLightValue() > 39) {
+				System.out.println("Pushing");
+			}
+			
+			stop();
+		
 		}
 		
 		
@@ -40,6 +47,7 @@ public class DriveSystem {
 	  */
 	  public void moveBackward(int time) throws InterruptedException
 	  {
+		 
 	    Motor.A.backward();
 	    Motor.B.backward();
 	    Thread.sleep(time);
@@ -54,9 +62,12 @@ public class DriveSystem {
 	  */
 	  public void rotate(int time) throws InterruptedException
 	  {
-	    Motor.A.backward();
-	    Motor.B.forward();
+	    Motor.A.rotate(45);
+	    Motor.B.rotate(45);
 	    Thread.sleep(time);
+	    
+	    System.out.println("Port A: " + Motor.A.getSpeed() + " Port B: " + Motor.B.getSpeed());
+		System.out.println("Port A: " + Motor.A.getAcceleration() + " Port B: " + Motor.B.getSpeed());
 	    stop();
 	  }
 	  

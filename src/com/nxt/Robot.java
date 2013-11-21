@@ -1,5 +1,7 @@
 package com.nxt;
 
+import lejos.nxt.Button;
+
 public class Robot {
 	private DriveSystem driveSystem;
 	private Timer timer;
@@ -17,7 +19,7 @@ public class Robot {
 		Initialize CanDetector
 	 */
 	
-	public void Robot() {
+	public Robot() {
 		driveSystem = new DriveSystem();
 		timer = new Timer();
 		canDetector = new CanDetector();
@@ -34,13 +36,11 @@ public class Robot {
 				remove the can
 	 */
 	public void run() {
-		while(!timer.isTimeUp() || !areCansCleared()) {
-			try {
-				driveSystem.rotate(ROTATE_AMOUNT);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		timer.start();
+		while(!timer.isTimeUp() && !areCansCleared() && !Button.ESCAPE.isDown()) {
+			
+				driveSystem.moveForward();
+			
 			
 			if(canDetector.isCanTargeted()) {
 				removeCan();

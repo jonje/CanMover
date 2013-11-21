@@ -2,7 +2,7 @@ package com.nxt;
 
 public class Timer extends Thread {
 	private int currentTime;
-	private final int MAX_TIME = 100;
+	private final int MAX_TIME = 10;
 	private boolean isRunning;
 	
 	/**
