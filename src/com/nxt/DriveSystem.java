@@ -6,6 +6,7 @@ import lejos.nxt.LightSensor;
 import lejos.nxt.Motor;
 import lejos.nxt.SensorConstants;
 import lejos.nxt.SensorPort;
+import lejos.nxt.Sound;
 
 public class DriveSystem {
 	LightSensor l;
@@ -38,6 +39,7 @@ public class DriveSystem {
 				System.out.println("Pushing");
 				if(c.isTouchingCan() && !removedCan)
 				{
+					Sound.beep();
 					removedCan = true;
 				}
 			}
@@ -57,6 +59,7 @@ public class DriveSystem {
 		System.out.println("Move backward started"); 
 	    Motor.A.backward();
 	    Motor.B.backward();
+	    Sound.beepSequence();
 	    Thread.sleep(time);
 	    
 	    stop();
